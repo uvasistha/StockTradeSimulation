@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
         @Builder
         @NoArgsConstructor
         @AllArgsConstructor
-        public class Global_Quote {
+        public static class Global_Quote {
 
             @JsonProperty("01. symbol")
             String symbol;
