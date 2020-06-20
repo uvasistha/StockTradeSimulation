@@ -1,7 +1,9 @@
 package com.stockdataservice.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,15 +12,17 @@ import javax.persistence.Table;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name ="stock")
+@Table(name ="Stock")
 public class Stock {
 
     @Id
     @Column(name = "id")
     String symbol;
     @Column(name = "open_val")
-    String open;
+    String open_val;
     @Column(name = "high")
     String high;
     @Column(name = "low")

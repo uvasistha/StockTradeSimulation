@@ -11,7 +11,9 @@ public class UserDataServiceImpl implements UserDataService {
     UserRepository userRepository;
 
     public User getUser(String id){
+        if(userExists(id))
         return userRepository.findById(id).get();
+        return null;
     }
 
     public Iterable<User> getAllUser(){
@@ -23,6 +25,7 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     public void deleteUser(String id){
+        if(userExists(id))
         userRepository.delete(getUser(id));
     }
 
@@ -35,10 +38,12 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     public void updateUser(String id, String stock_list, String balance, String profit, String no_of_stock){
+        if(userExists(id))
         userRepository.updateUser(id,stock_list,balance,profit,no_of_stock);
     }
 
     public void editUser(String id, String email, String mobile, String name, String premium_customer, String password){
+        if(userExists(id))
        userRepository.editUser(id,email,mobile,name,premium_customer,password);
     }
 }

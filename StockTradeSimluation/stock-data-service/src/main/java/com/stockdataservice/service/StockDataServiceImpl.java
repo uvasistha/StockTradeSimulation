@@ -11,7 +11,9 @@ public class StockDataServiceImpl implements StockDataService {
     StockRepository stockRepository;
 
     public Stock getStock(String id){
+        if(stockExists(id))
         return stockRepository.findById(id).get();
+        return null;
     }
 
     public void saveStock(Stock stock){
@@ -31,6 +33,7 @@ public class StockDataServiceImpl implements StockDataService {
     }
 
     public void updateStock(String id, String open_val, String high, String low, String price, String volume, String latest_trading_day, String previous_close, String change, String change_percent){
+        if(stockExists(id))
         stockRepository.updateStock(id,open_val,high,low,price,volume,latest_trading_day,previous_close,change,change_percent);
     }
 }
