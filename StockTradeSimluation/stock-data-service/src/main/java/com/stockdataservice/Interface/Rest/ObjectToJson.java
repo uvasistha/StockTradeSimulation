@@ -18,6 +18,8 @@ public class ObjectToJson {
 
     public String convert(Object o){
         String json = null;
+        if(o==null)
+            return json;
         try {
             ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
             json = ow.writeValueAsString(o);

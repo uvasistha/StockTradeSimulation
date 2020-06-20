@@ -1,7 +1,6 @@
 package com.stockdataservice.Interface.Rest;
 
-import com.stockdataservice.Interface.Rest.Model.Stock;
-import com.stockdataservice.Interface.Rest.Model.StockExternal;
+import com.stockdataservice.Interface.External.model.StockExternal;
 import com.stockdataservice.Interface.Rest.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
