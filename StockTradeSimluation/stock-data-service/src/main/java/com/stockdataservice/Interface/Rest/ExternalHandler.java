@@ -5,7 +5,10 @@ import com.stockdataservice.Interface.External.model.StockExternal;
 import com.stockdataservice.Interface.Rest.Model.Stock;
 import com.stockdataservice.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class ExternalHandler {
@@ -34,6 +37,9 @@ public class ExternalHandler {
     }
 
     public String saveStock(StockExternal stock){
+        if(stock==null)
+            return null;
+
         StockExternal.Global_Quote global_quote = stock.getGlobal_quote();
         String response = "success";
         com.stockdataservice.domain.Stock stockData = com.stockdataservice.domain.Stock.builder()
@@ -53,6 +59,9 @@ public class ExternalHandler {
     }
 
     public String updateStock(StockExternal stock){
+        if(stock==null)
+            return null;
+
         StockExternal.Global_Quote global_quote = stock.getGlobal_quote();
         String response = "success";
         try {
@@ -64,5 +73,27 @@ public class ExternalHandler {
             e.printStackTrace();
         }
         return  response;
+    }
+
+    //schedule for every one hour to update
+    @Scheduled(initialDelay = 1000*60*60, fixedDelay = 1000*60*60)
+    public void fetchOldStock(){
+        Iterable<com.stockdataservice.domain.Stock> allStock= dataService.getAllStock();
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        allStock.forEach(stock -> {
+            if(atomicInteger.get()==5){
+                atomicInteger.set(0);
+                try {
+                    Thread.sleep(1000*60*5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            StockExternal stockExternal = stockRealTime.getStockData(stock.getSymbol());
+            atomicInteger.set(atomicInteger.get()+1);
+            if(stockExternal != null){
+                updateStock(stockExternal);
+            }
+        });
     }
 }
