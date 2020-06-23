@@ -1,6 +1,7 @@
 package com.stockrealtime.stockrealtime.Interface.External;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stockrealtime.stockrealtime.Model.SearchEndPoint;
 import com.stockrealtime.stockrealtime.Model.Stock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +49,32 @@ public class StockFetcher {
         int start = 0;
         Stock stock = null;
         while(start < size) {
-            final String uri = URI.key.replace("StockName", stockName).replace("StockKey", key);
+            final String uri = URI.quote.replace("StockName", stockName).replace("StockKey", key);
             log.info(uri);
             try {
                 stock = objectMapper.readValue(restTemplate.getForObject(uri, String.class), Stock.class);
+                index = (index + 1) % size;
+                key = keys.get(index).key;
+                start = start + 1;
+                break;
+            } catch (Exception e) {
+                log.info("External API Failed Key Switch");
+                index = (index + 1) % size;
+                key = keys.get(index).key;
+                start = start + 1;
+            }
+        }
+        return stock;
+    }
+
+    public SearchEndPoint getStockSymbol(String stockName){
+        int start = 0;
+        SearchEndPoint stock = null;
+        while(start < size) {
+            final String uri = URI.search.replace("StockName", stockName).replace("StockKey", key);
+            log.info(uri);
+            try {
+                stock = objectMapper.readValue(restTemplate.getForObject(uri, String.class), SearchEndPoint.class);
                 index = (index + 1) % size;
                 key = keys.get(index).key;
                 start = start + 1;
