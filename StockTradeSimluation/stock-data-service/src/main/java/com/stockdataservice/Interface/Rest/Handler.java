@@ -3,7 +3,7 @@ package com.stockdataservice.Interface.Rest;
 import com.stockdataservice.Interface.Rest.Model.Stock;
 import com.stockdataservice.Interface.External.model.StockExternal;
 import com.stockdataservice.Interface.Rest.Model.User;
-import com.stockdataservice.service.DataService;
+import com.stockdataservice.service.DataDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class Handler {
     
     @Autowired
-    DataService dataService;
+    DataDataService dataService;
     @Autowired
     ExternalHandler externalHandler;
     

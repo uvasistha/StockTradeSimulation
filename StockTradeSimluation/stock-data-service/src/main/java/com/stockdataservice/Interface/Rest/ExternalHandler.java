@@ -3,7 +3,7 @@ package com.stockdataservice.Interface.Rest;
 import com.stockdataservice.Interface.External.StockRealTime;
 import com.stockdataservice.Interface.External.model.StockExternal;
 import com.stockdataservice.Interface.Rest.Model.Stock;
-import com.stockdataservice.service.DataService;
+import com.stockdataservice.service.DataDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,7 +20,7 @@ public class ExternalHandler {
     @Autowired
     StockRealTime stockRealTime;
     @Autowired
-    DataService dataService;
+    DataDataService dataService;
 
     public Stock fetchStock(String stockName){
         //fetch from external api

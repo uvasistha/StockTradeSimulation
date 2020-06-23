@@ -1,18 +1,20 @@
 package com.stockdataservice.service;
 
 import com.stockdataservice.domain.Stock;
+import com.stockdataservice.domain.StockSymbol;
 import com.stockdataservice.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DataServiceImpl implements DataService {
+public class DataDataServiceImpl implements DataDataService {
 
     @Autowired
     StockDataService stockDataService;
     @Autowired
     UserDataService userDataService;
-
+    @Autowired
+    StockSymbolDataService stockSymbolDataService;
 
     @Override
     public Stock getStock(String id) {
@@ -82,5 +84,15 @@ public class DataServiceImpl implements DataService {
     @Override
     public void editUser(String id, String email, String mobile, String name, String premium_customer, String password) {
         userDataService.editUser(id, email, mobile, name, premium_customer, password);
+    }
+
+    @Override
+    public StockSymbol getSymbol(String id) {
+        return stockSymbolDataService.getSymbol(id);
+    }
+
+    @Override
+    public Iterable<StockSymbol> getSymbolList() {
+        return stockSymbolDataService.getSymbolList();
     }
 }

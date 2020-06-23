@@ -24,5 +24,10 @@ CREATE TABLE IF NOT EXISTS Stock (
   change_percent VARCHAR(250)  NULL
 );
 
+CREATE TABLE IF NOT EXISTS StockSymbol (
+  id VARCHAR(250) PRIMARY KEY,
+  name VARCHAR(250)  NULL,
+);
+
 
 
