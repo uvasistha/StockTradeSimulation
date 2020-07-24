@@ -3,7 +3,9 @@ package com.stockuserservice.Interface.REST;
 import com.stockuserservice.Interface.External.ExternalHandler;
 import com.stockuserservice.Interface.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Handler {
 
     @Autowired
