@@ -47,8 +47,7 @@ public class Controller {
     @ResponseStatus(value = HttpStatus.OK)
     @RequestMapping(method = RequestMethod.PUT, path = "/update/user/{id}/{purchase}")
     public HttpEntity<String> updateUser(@PathVariable String id, @PathVariable Boolean purchase,@RequestBody Trade trade){
-        handler.updateUser(id,purchase,trade);
-        return new HttpEntity<String>("OK");
+        return new HttpEntity<String>(objectToJson.convert( handler.updateUser(id,purchase,trade)));
     }
 
     @ResponseStatus(value = HttpStatus.OK)

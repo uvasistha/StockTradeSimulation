@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Trade {
 
-    @JsonProperty("id")
+    @JsonProperty("stockSymbol")
     String stockSymbol;
 
     @JsonProperty("stockName")

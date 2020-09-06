@@ -31,10 +31,16 @@ public class Handler {
     }
 
     void saveUser(User user){
+        //Defaults
+        user.setNo_of_stock("0");
+        user.setBalance("1000");
+        user.setStock_list("Empty");
+        user.setProfit("0");
         externalHandler.saveUser(user);
     }
 
     void editUser(User user){
+        //contains id password and all for edit
         externalHandler.editUser(user);
     }
 
@@ -42,37 +48,55 @@ public class Handler {
         return externalHandler.getUserAllStock(userid);
     }
 
-    //User has stock name (stockList) and number of stock (stock)
-    void updateUser(String id, boolean purchase, Trade trade){
+    String updateUser(String id, boolean purchase, Trade trade) {
         User dbUser = externalHandler.getUser(id);
+       if(dbUser==null)
+           return  "User not found";
+        String uniqueID = id + "_" + trade.getStockSymbol();
+        StockUser stockUser =null;
+        stockUser = externalHandler.getUserStock(uniqueID);
 
-//        //buy case
-//        if(purchase){
-//            // if  balance > trade.amount =>return
-             //  if stock exist && trade.stockVolume + stock.Volume <100
-            //  => trade.stockVolume += trade.stockVolume and  balance -= trade.amount
-            //   if stock don't exist && stock count < 50
-            //   => allow to buy and add it,increase total stocks count
-//
-//            dbUser.setStock_list(dbUser.getStock_list().concat(userInvoice.getStock_list()));
-//            dbUser.setNo_of_stock(String.valueOf(Integer.parseInt(dbUser.getNo_of_stock())+Integer.parseInt(userInvoice.getNo_of_stock())));
-//        }
+//       //buy case
+        if (purchase) {
+            if (Integer.parseInt(dbUser.getBalance()) < Integer.parseInt(trade.getAmount()))
+                return "Insufficient Balance";
+            else if (stockUser != null && Integer.parseInt(trade.getStockVolume()) + Integer.parseInt(stockUser.getStock_volume()) < 100) {
+                String totalUnits = String.valueOf(Integer.parseInt(trade.getStockVolume()) + Integer.parseInt(stockUser.getStock_volume()));
+                String updatedBalance = String.valueOf(Integer.parseInt(dbUser.getBalance()) - Integer.parseInt(trade.getAmount()));
+                dbUser.setBalance(updatedBalance);
+                externalHandler.tradeUserStock(uniqueID, totalUnits);
+                externalHandler.updateUser(dbUser);
+                return "Purchase :Stocks for " + trade.getStockName() + " updated";
+            } else if (stockUser == null && Integer.parseInt(dbUser.getNo_of_stock()) < 50) {
+                StockUser stockUserNew = StockUser.builder()
+                        .id(uniqueID)
+                        .stock_name(trade.getStockName())
+                        .stock_volume(trade.getStockVolume())
+                        .user_id(id).build();
+                String updatedBalance = String.valueOf(Integer.parseInt(dbUser.getBalance()) - Integer.parseInt(trade.getAmount()));
+                dbUser.setBalance(updatedBalance);
+                dbUser.setNo_of_stock(String.valueOf(Integer.parseInt(dbUser.getNo_of_stock()) + 1));
+                externalHandler.saveUserStock(stockUserNew);
+                externalHandler.updateUser(dbUser);
+                return "Purchase : Stocks for " + trade.getStockName() + " purchased";
+            }
+            else return "Can't have more than 100 volumes or more than 50 stocks";
+        }
         //sell case
-//        else {
-        //see if stock  exist &&   trade.stockVolume<= stockVolume
-        //=>allow and trade.stockVolume += trade.stockVolume and  balance -= trade.amount
-        // if stockVolume == 0 => remove it,decrease total stocks count
-//            dbUser.setStock_list(dbUser.getStock_list().replace(userInvoice.getStock_list(),""));
-//            dbUser.setNo_of_stock(String.valueOf(Integer.parseInt(dbUser.getNo_of_stock())-Integer.parseInt(userInvoice.getNo_of_stock())));
-//        }
-
-        //find price of portfolio
-//        String profit = externalHandler.getProfit(userInvoice.getId(),userInvoice);
-        //find balance now
-//        String balance = externalHandler.getBalance(userInvoice.getId(),userInvoice);
-//
-//        dbUser.setProfit(profit);
-//        dbUser.setBalance(balance);
-//        externalHandler.updateUser(dbUser);
+        else {
+            if (stockUser == null) return "Invalid Action : Can't sell not owned stock";
+            else if (Integer.parseInt(trade.getStockVolume()) > Integer.parseInt(stockUser.getStock_volume()))
+                return "Invalid Action : Can't sell more than bought";
+            else {
+                String totalUnits = String.valueOf(Integer.parseInt(stockUser.getStock_volume()) - Integer.parseInt(trade.getStockVolume()));
+                String updatedBalance = String.valueOf(Integer.parseInt(dbUser.getBalance()) + Integer.parseInt(trade.getAmount()));
+                dbUser.setBalance(updatedBalance);
+                if (Integer.parseInt(stockUser.getStock_volume()) - Integer.parseInt(trade.getStockVolume()) == 0)
+                    dbUser.setNo_of_stock(String.valueOf(Integer.parseInt(dbUser.getNo_of_stock()) - 1));
+                externalHandler.tradeUserStock(uniqueID, totalUnits);
+                externalHandler.updateUser(dbUser);
+                return "Sale : Stocks for " + trade.getStockName() + " updated";
+            }
+        }
     }
 }
