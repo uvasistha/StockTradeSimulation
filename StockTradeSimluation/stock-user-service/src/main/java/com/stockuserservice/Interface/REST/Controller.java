@@ -1,5 +1,6 @@
 package com.stockuserservice.Interface.REST;
 
+import com.stockuserservice.Interface.Model.Trade;
 import com.stockuserservice.Interface.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -19,7 +20,7 @@ public class Controller {
 
     @ResponseStatus(value = HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET, path = "/validate/")
-    public HttpEntity<String> getStock(@PathVariable User user){
+    public HttpEntity<String> getStock(@RequestBody User user){
         return new HttpEntity<String>(objectToJson.convert(handler.validateUser(user)));
     }
 
@@ -31,7 +32,7 @@ public class Controller {
 
     @ResponseStatus(value = HttpStatus.OK)
     @RequestMapping(method = RequestMethod.PUT, path = "/save/user/")
-    public HttpEntity<String> saveUser(@PathVariable User user){
+    public HttpEntity<String> saveUser(@RequestBody User user){
         handler.saveUser(user);
         return new HttpEntity<String>("OK");
     }
@@ -44,9 +45,15 @@ public class Controller {
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.PUT, path = "/update/user/{purchase}")
-    public HttpEntity<String> updateUser(@RequestBody User user, @PathVariable Boolean purchase){
-        handler.updateUser(user,purchase);
+    @RequestMapping(method = RequestMethod.PUT, path = "/update/user/{id}/{purchase}")
+    public HttpEntity<String> updateUser(@PathVariable String id, @PathVariable Boolean purchase,@RequestBody Trade trade){
+        handler.updateUser(id,purchase,trade);
         return new HttpEntity<String>("OK");
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET, path = "/portfolio/{userid}")
+    public HttpEntity<String> getUserPortfolio(@PathVariable String userid){
+        return new HttpEntity<String>(objectToJson.convert(handler.getUserPortfolioUser(userid)));
     }
 }
