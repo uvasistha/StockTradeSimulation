@@ -25,7 +25,7 @@ public class Handler {
         if(stockdata==null)
             return  externalHandler.fetchStock(id);
 
-        Stock stock = Stock.builder().open(stockdata.getOpen_val()).previous_close(stockdata.getPrevious_close())
+        Stock stock = Stock.builder().symbol(stockdata.getSymbol()).open(stockdata.getOpen_val()).previous_close(stockdata.getPrevious_close())
                 .low(stockdata.getLow()).high(stockdata.getHigh())
                 .price(stockdata.getPrice()).volume(stockdata.getVolume()).build();
         return stock;
@@ -36,7 +36,7 @@ public class Handler {
         com.stockdataservice.domain.User userdata = dataService.getUser(id);
         if(userdata==null)
             return null;
-        User user = User.builder().no_of_stock(userdata.getNo_of_stock()).name(userdata.getName())
+        User user = User.builder().id(userdata.getId()).no_of_stock(userdata.getNo_of_stock()).name(userdata.getName())
                 .balance(userdata.getBalance()).premium_customer(userdata.getPremium_customer())
                 .profit(userdata.getProfit()).stock_list(userdata.getStock_list()).build();
         return user;

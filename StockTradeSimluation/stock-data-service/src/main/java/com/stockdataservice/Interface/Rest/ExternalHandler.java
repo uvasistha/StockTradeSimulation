@@ -34,7 +34,7 @@ public class ExternalHandler {
         com.stockdataservice.domain.Stock stockdata = dataService.getStock(stockName);
         if(stockdata==null)
             return  null;
-        Stock stock = Stock.builder().open(stockdata.getOpen_val()).previous_close(stockdata.getPrevious_close())
+        Stock stock = Stock.builder().symbol(stockdata.getSymbol()).open(stockdata.getOpen_val()).previous_close(stockdata.getPrevious_close())
                 .low(stockdata.getLow()).high(stockdata.getHigh())
                 .price(stockdata.getPrice()).volume(stockdata.getVolume()).build();
         return stock;
