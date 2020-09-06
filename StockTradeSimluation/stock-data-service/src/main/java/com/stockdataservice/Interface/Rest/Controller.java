@@ -2,6 +2,7 @@ package com.stockdataservice.Interface.Rest;
 
 import com.stockdataservice.Interface.External.model.StockExternal;
 import com.stockdataservice.Interface.Rest.Model.User;
+import com.stockdataservice.domain.StockUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -60,4 +61,27 @@ public class Controller {
         return new HttpEntity<String>(objectToJson.convert(handler.editUser(user)));
     }
 
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET, path = "/portfolio/{id}")
+    public HttpEntity<String> getUserStock(@PathVariable String id){
+        return new HttpEntity<String>(objectToJson.convert(handler.getUserStock(id)));
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET, path = "/portfolio/all/{userid}")
+    public HttpEntity<String> getUserAllStock(@PathVariable String userid){
+        return new HttpEntity<String>(objectToJson.convert(handler.getUserAllStock(userid)));
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.PUT, path = "/portfolio/add/")
+    public HttpEntity<String> saveUserStock(@RequestBody StockUser stockUser){
+        return new HttpEntity<String>(objectToJson.convert(handler.saveUserStock(stockUser)));
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.PUT, path = "/portfolio/trade/{id}/{volume}")
+    public HttpEntity<String> tradeUserStock(@PathVariable String id,@PathVariable String volume){
+        return new HttpEntity<String>(objectToJson.convert(handler.tradeUserStock(id,volume)));
+    }
 }

@@ -1,11 +1,15 @@
 package com.stockdataservice.Interface.Rest;
 
-import com.stockdataservice.Interface.Rest.Model.Stock;
 import com.stockdataservice.Interface.External.model.StockExternal;
+import com.stockdataservice.Interface.Rest.Model.Stock;
 import com.stockdataservice.Interface.Rest.Model.User;
+import com.stockdataservice.domain.StockUser;
 import com.stockdataservice.service.DataDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class Handler {
@@ -82,4 +86,30 @@ public class Handler {
         return response;
     }
 
+
+    public StockUser getUserStock(String id){
+        return dataService.getStockForUser(id);
+    }
+
+    public List<StockUser> getUserAllStock(String userid){
+        return  (ArrayList<StockUser>)dataService.getAllStockForUser(userid);
+    }
+
+    public String saveUserStock(StockUser stockUser){
+        String response = "success";
+        try {
+            dataService.saveStockForUser(stockUser);
+        }catch (Exception e){
+            response = "couldn't save";
+        }
+        return response;
+    }
+
+    public String tradeUserStock(String id, String stock_volume){
+        String response = "success";
+        if(!dataService.stockExistsForUser(id))
+            return "invalid stock for user";
+        dataService.makeTrade(id, stock_volume);
+        return response;
+    }
 }

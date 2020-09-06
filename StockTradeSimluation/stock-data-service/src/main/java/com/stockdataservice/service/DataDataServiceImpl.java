@@ -2,6 +2,7 @@ package com.stockdataservice.service;
 
 import com.stockdataservice.domain.Stock;
 import com.stockdataservice.domain.StockSymbol;
+import com.stockdataservice.domain.StockUser;
 import com.stockdataservice.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ public class DataDataServiceImpl implements DataDataService {
     UserDataService userDataService;
     @Autowired
     StockSymbolDataService stockSymbolDataService;
+    @Autowired
+    StockUserDataService stockUserDataService;
 
     @Override
     public Stock getStock(String id) {
@@ -94,5 +97,30 @@ public class DataDataServiceImpl implements DataDataService {
     @Override
     public Iterable<StockSymbol> getSymbolList() {
         return stockSymbolDataService.getSymbolList();
+    }
+
+    @Override
+    public StockUser getStockForUser(String id) {
+        return stockUserDataService.getStockForUser(id);
+    }
+
+    @Override
+    public void saveStockForUser(StockUser stockUser) {
+        stockUserDataService.saveStockForUser(stockUser);
+    }
+
+    @Override
+    public Iterable<StockUser> getAllStockForUser(String user_id) {
+        return stockUserDataService.getAllStockForUser(user_id);
+    }
+
+    @Override
+    public Boolean stockExistsForUser(String id) {
+        return stockUserDataService.stockExistsForUser(id);
+    }
+
+    @Override
+    public void makeTrade(String id, String stock_volume) {
+         stockUserDataService.makeTrade(id, stock_volume);
     }
 }
