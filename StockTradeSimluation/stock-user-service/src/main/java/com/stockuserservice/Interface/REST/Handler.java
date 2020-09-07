@@ -49,6 +49,7 @@ public class Handler {
     }
 
     String updateUser(String id, boolean purchase, Trade trade) {
+        //TODO calculate stock price add date
         User dbUser = externalHandler.getUser(id);
        if(dbUser==null)
            return  "User not found";
