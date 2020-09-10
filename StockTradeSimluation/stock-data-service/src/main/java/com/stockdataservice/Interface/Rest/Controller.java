@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "/*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/dataService")
 public class Controller {
 
@@ -83,5 +83,11 @@ public class Controller {
     @RequestMapping(method = RequestMethod.PUT, path = "/portfolio/trade/{id}/{volume}")
     public HttpEntity<String> tradeUserStock(@PathVariable String id,@PathVariable String volume){
         return new HttpEntity<String>(objectToJson.convert(handler.tradeUserStock(id,volume)));
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET, path = "/explore")
+    public HttpEntity<String> exploreStock(){
+        return new HttpEntity<String>(objectToJson.convert(handler.exploreStock()));
     }
 }

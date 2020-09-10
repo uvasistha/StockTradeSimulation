@@ -32,8 +32,12 @@ CREATE TABLE IF NOT EXISTS StockSymbol (
 CREATE TABLE IF NOT EXISTS StockUser (
   id VARCHAR(250) PRIMARY KEY,
   stock_name VARCHAR(250)  NULL,
+  stock_symbol VARCHAR(250)  NULL,
   stock_volume VARCHAR(250)  NULL,
   user_id VARCHAR(250)  NULL,
+  current_value VARCHAR(250)  NULL,
+  price_of_stock VARCHAR(250)  NULL,
+  change_percent VARCHAR(250)  NULL,
 
 );
 

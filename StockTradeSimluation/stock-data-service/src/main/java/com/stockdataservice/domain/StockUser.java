@@ -30,6 +30,10 @@ public class StockUser {
     @JsonProperty("stock_name")
     String stock_name;
 
+    @Column(name = "stock_symbol")
+    @JsonProperty("stock_symbol")
+    String stock_symbol;
+
     @Column(name = "stock_volume")
     @JsonProperty("stock_volume")
     String stock_volume;
@@ -37,4 +41,16 @@ public class StockUser {
     @Column(name = "user_id")
     @JsonProperty("user_id")
     String user_id;
+
+    @Column(name = "current_value")
+    @JsonProperty("current_value")
+    String current_value;
+
+    @Column(name = "price_of_stock")
+    @JsonProperty("price_of_stock")
+    String price_of_stock;
+
+    @Column(name = "change_percent")
+    @JsonProperty("change_percent")
+    String change_percent;
 }

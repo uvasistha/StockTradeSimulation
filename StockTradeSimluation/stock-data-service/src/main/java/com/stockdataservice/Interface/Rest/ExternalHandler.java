@@ -36,7 +36,9 @@ public class ExternalHandler {
             return  null;
         Stock stock = Stock.builder().symbol(stockdata.getSymbol()).open(stockdata.getOpen_val()).previous_close(stockdata.getPrevious_close())
                 .low(stockdata.getLow()).high(stockdata.getHigh())
-                .price(stockdata.getPrice()).volume(stockdata.getVolume()).build();
+                .price(stockdata.getPrice()).volume(stockdata.getVolume())
+                .change(stockdata.getChange()).change_percent(stockdata.getChange_percent())
+                .latest_trading_day(stockdata.getLatest_trading_day()).build();
         return stock;
     }
 

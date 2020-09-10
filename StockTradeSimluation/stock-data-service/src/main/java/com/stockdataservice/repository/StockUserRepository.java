@@ -15,4 +15,7 @@ public interface StockUserRepository extends CrudRepository<StockUser, String> {
     @Query("select u from StockUser u where u.user_id = :user_id")
     Iterable<StockUser> findByuserId(String user_id);
 
+    @Modifying
+    @Query("update StockUser u set u.current_value = :current_value, u.price_of_stock = :price_of_stock, u.change_percent = :change_percent where u.id = :id")
+    void updateUserStockPrices(String id, String current_value, String price_of_stock, String change_percent);
 }

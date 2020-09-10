@@ -123,4 +123,14 @@ public class DataDataServiceImpl implements DataDataService {
     public void makeTrade(String id, String stock_volume) {
          stockUserDataService.makeTrade(id, stock_volume);
     }
+
+    @Override
+    public void updateUserStockPrices(String id, String current_value, String price_of_stock, String change_percent) {
+        stockUserDataService.updateUserStockPrices(id, current_value, price_of_stock, change_percent);
+    }
+
+    @Override
+    public void delete(String id) {
+        stockUserDataService.delete(id);
+    }
 }

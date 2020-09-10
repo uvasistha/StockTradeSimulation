@@ -42,4 +42,20 @@ public class StockUserDataServiceImpl implements StockUserDataService{
         if(stockExistsForUser(id))
         stockUserRepository.makeTrade(id, stock_volume);
     }
+
+    @Override
+    @Transactional
+    public void updateUserStockPrices(String id, String current_value, String price_of_stock, String change_percent) {
+        if(stockExistsForUser(id)){
+            stockUserRepository.updateUserStockPrices(id, current_value, price_of_stock, change_percent);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void delete(String id){
+        if(stockExistsForUser(id)){
+            stockUserRepository.deleteById(id);
+        }
+    }
 }

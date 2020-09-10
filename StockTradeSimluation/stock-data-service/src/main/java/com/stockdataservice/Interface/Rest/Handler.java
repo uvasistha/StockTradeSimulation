@@ -3,6 +3,7 @@ package com.stockdataservice.Interface.Rest;
 import com.stockdataservice.Interface.External.model.StockExternal;
 import com.stockdataservice.Interface.Rest.Model.Stock;
 import com.stockdataservice.Interface.Rest.Model.User;
+import com.stockdataservice.domain.StockSymbol;
 import com.stockdataservice.domain.StockUser;
 import com.stockdataservice.service.DataDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,9 @@ public class Handler {
 
         Stock stock = Stock.builder().symbol(stockdata.getSymbol()).open(stockdata.getOpen_val()).previous_close(stockdata.getPrevious_close())
                 .low(stockdata.getLow()).high(stockdata.getHigh())
-                .price(stockdata.getPrice()).volume(stockdata.getVolume()).build();
+                .price(stockdata.getPrice()).volume(stockdata.getVolume())
+                .change(stockdata.getChange()).change_percent(stockdata.getChange_percent())
+                .latest_trading_day(stockdata.getLatest_trading_day()).build();
         return stock;
     }
 
@@ -98,6 +101,11 @@ public class Handler {
     public String saveUserStock(StockUser stockUser){
         String response = "success";
         try {
+            com.stockdataservice.domain.Stock stockRealTime = dataService.getStock(stockUser.getStock_symbol());
+            stockUser.setPrice_of_stock(stockRealTime.getPrice());
+            stockUser.setChange_percent(stockRealTime.getChange_percent());
+            String current_value = String.valueOf(Double.parseDouble(stockUser.getStock_volume())*Double.parseDouble(stockRealTime.getPrice()));
+            stockUser.setCurrent_value(current_value);
             dataService.saveStockForUser(stockUser);
         }catch (Exception e){
             response = "couldn't save";
@@ -110,6 +118,23 @@ public class Handler {
         if(!dataService.stockExistsForUser(id))
             return "invalid stock for user";
         dataService.makeTrade(id, stock_volume);
+        StockUser dbinfo = dataService.getStockForUser(id);
+        String current_value = String.valueOf(Double.parseDouble(dbinfo.getStock_volume())*Double.parseDouble(dbinfo.getPrice_of_stock()));
+        dataService.updateUserStockPrices(id,current_value,dbinfo.getPrice_of_stock(),dbinfo.getChange_percent());
         return response;
+    }
+
+    public String updateUserStockPrices(String id, String current_value, String price_of_stock, String change_percent){
+        String response = "success";
+        if(!dataService.stockExistsForUser(id))
+            return "invalid stock for user";
+        dataService.updateUserStockPrices(id, current_value, price_of_stock, change_percent);
+        return response;
+    }
+
+
+
+    public List<StockSymbol> exploreStock(){
+        return  (ArrayList<StockSymbol>)dataService.getSymbolList();
     }
 }

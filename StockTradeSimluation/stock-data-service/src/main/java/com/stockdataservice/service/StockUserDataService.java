@@ -16,4 +16,7 @@ public interface StockUserDataService {
 
     void makeTrade(String id, String stock_volume);
 
+    void updateUserStockPrices(String id, String current_value, String price_of_stock, String change_percent);
+
+    public void delete(String id);
 }
