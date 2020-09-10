@@ -22,8 +22,8 @@ export default function ImgMediaCard (props) {
      if(props.title =="High")  defbg = '#415231'
      if(props.title =="Low") defbg = '#6f2519'
      if(props.title =="Price") defbg = '#5a4129'
-    //  if(props.title =="Open") defbg = '#40354e'
-    //  if(props.title =="Volume") defbg = '#0d6769'
+     if(props.title =="Buy") defbg = '#415231'
+     if(props.title =="Sell") defbg = '#58111a'
      if(props.title =="Change") {
         (props.value.includes("-"))? defbg= '#58111a': defbg ='#005400'
     }
