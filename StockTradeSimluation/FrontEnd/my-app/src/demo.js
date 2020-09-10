@@ -26,6 +26,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import InfoIcon from '@material-ui/icons/Info';
 import Dashboard from './Dashboard';
 import Portfolio from './Portfolio';
+import Trade from './Trade';
 
 const drawerWidth = 240;
 
@@ -202,7 +203,7 @@ export default function MiniDrawer() {
         <div className={classes.toolbar} />
        {dash == true ? <Dashboard/> :null}
        {portfolio == true ? <Portfolio/> :null}
-       {trade == true ? <p>TRADE</p> :null}
+       {trade == true ? <Trade/> :null}
        {insight == true ? <p>INSIGHTS</p> :null}
        {account == true ? <p>MY ACOOUNT</p> :null}
        {about == true ? <p>ABOUT</p> :null}
