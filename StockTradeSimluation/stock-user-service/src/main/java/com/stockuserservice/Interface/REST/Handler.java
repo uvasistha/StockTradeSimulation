@@ -59,11 +59,11 @@ public class Handler {
 
 //       //buy case
         if (purchase) {
-            if (Integer.parseInt(dbUser.getBalance()) < Integer.parseInt(trade.getAmount()))
+            if (Double.parseDouble(dbUser.getBalance()) < Double.parseDouble(trade.getAmount()))
                 return "Insufficient Balance";
             else if (stockUser != null && Integer.parseInt(trade.getStockVolume()) + Integer.parseInt(stockUser.getStock_volume()) < 100) {
                 String totalUnits = String.valueOf(Integer.parseInt(trade.getStockVolume()) + Integer.parseInt(stockUser.getStock_volume()));
-                String updatedBalance = String.valueOf(Integer.parseInt(dbUser.getBalance()) - Integer.parseInt(trade.getAmount()));
+                String updatedBalance = String.valueOf(Double.parseDouble(dbUser.getBalance()) - Double.parseDouble(trade.getAmount()));
                 dbUser.setBalance(updatedBalance);
                 externalHandler.tradeUserStock(uniqueID, totalUnits);
                 externalHandler.updateUser(dbUser);
@@ -72,9 +72,10 @@ public class Handler {
                 StockUser stockUserNew = StockUser.builder()
                         .id(uniqueID)
                         .stock_name(trade.getStockName())
+                        .stock_symbol(trade.getStockSymbol())
                         .stock_volume(trade.getStockVolume())
                         .user_id(id).build();
-                String updatedBalance = String.valueOf(Integer.parseInt(dbUser.getBalance()) - Integer.parseInt(trade.getAmount()));
+                String updatedBalance = String.valueOf(Double.parseDouble(dbUser.getBalance()) - Double.parseDouble(trade.getAmount()));
                 dbUser.setBalance(updatedBalance);
                 dbUser.setNo_of_stock(String.valueOf(Integer.parseInt(dbUser.getNo_of_stock()) + 1));
                 externalHandler.saveUserStock(stockUserNew);
@@ -90,7 +91,7 @@ public class Handler {
                 return "Invalid Action : Can't sell more than bought";
             else {
                 String totalUnits = String.valueOf(Integer.parseInt(stockUser.getStock_volume()) - Integer.parseInt(trade.getStockVolume()));
-                String updatedBalance = String.valueOf(Integer.parseInt(dbUser.getBalance()) + Integer.parseInt(trade.getAmount()));
+                String updatedBalance = String.valueOf(Double.parseDouble(dbUser.getBalance()) + Double.parseDouble(trade.getAmount()));
                 dbUser.setBalance(updatedBalance);
                 if (Integer.parseInt(stockUser.getStock_volume()) - Integer.parseInt(trade.getStockVolume()) == 0)
                     dbUser.setNo_of_stock(String.valueOf(Integer.parseInt(dbUser.getNo_of_stock()) - 1));

@@ -20,10 +20,22 @@ public class StockUser {
     @JsonProperty("stock_name")
     String stock_name;
 
+    @JsonProperty("stock_symbol")
+    String stock_symbol;
+
     @JsonProperty("stock_volume")
     String stock_volume;
 
     @JsonProperty("user_id")
     String user_id;
+
+    @JsonProperty("current_value")
+    String current_value;
+
+    @JsonProperty("price_of_stock")
+    String price_of_stock;
+
+    @JsonProperty("change_percent")
+    String change_percent;
 }
 
