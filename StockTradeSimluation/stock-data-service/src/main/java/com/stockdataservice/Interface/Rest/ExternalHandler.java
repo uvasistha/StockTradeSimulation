@@ -43,7 +43,7 @@ public class ExternalHandler {
     }
 
     public String saveStock(StockExternal stock){
-        if(stock==null)
+        if(stock==null || stock.getGlobal_quote()==null || stock.getGlobal_quote().getSymbol()==null)
             return null;
 
         StockExternal.Global_Quote global_quote = stock.getGlobal_quote();
